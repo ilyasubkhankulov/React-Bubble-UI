@@ -14,6 +14,7 @@ export const defaultOptions = {
   showGuides: false,
   compact: false,
   gravitation: 0,
+  dragspeed: 1,
 };
 
 export default function BubbleElement(props) {
@@ -88,8 +89,8 @@ export default function BubbleElement(props) {
     e.preventDefault();
     const x = e.pageX - scrollable.current.offsetLeft;
     const y = e.pageY - scrollable.current.offsetTop;
-    const walk = (x - startX) * 2;
-    const topwalk = (y - startY) * 2;
+    const walk = (x - startX) * options.dragspeed;
+    const topwalk = (y - startY) * options.dragspeed;
     scrollable.current.scrollLeft = scrollLeft - walk;
     scrollable.current.scrollTop = scrollTop - topwalk;
   };
