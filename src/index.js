@@ -58,8 +58,41 @@ export default function BubbleElement(props) {
     }
   }
 
+  const [isDown, setIsDown] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [startY, setStartY] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e) => {
+    setIsDown(true);
+    scrollable.current.classList.add("active");
+    setStartX(e.pageX - scrollable.current.offsetLeft);
+    setStartY(e.pageY - scrollable.current.offsetTop);
+    setScrollLeft(scrollable.current.scrollLeft);
+    setScrollTop(scrollable.current.scrollTop);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDown(false);
+    scrollable.current.classList.remove("active");
+  };
+
+  const handleMouseUp = () => {
+    setIsDown(false);
+    scrollable.current.classList.remove("active");
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - scrollable.current.offsetLeft;
+    const y = e.pageY - scrollable.current.offsetTop;
+    const walk = (x - startX) * 2;
+    const topwalk = (y - startY) * 2;
+    scrollable.current.scrollLeft = scrollLeft - walk;
+    scrollable.current.scrollTop = scrollTop - topwalk;
+  };
 
   const handleScroll = (e) => {
     if (e.target.className) {
@@ -67,7 +100,6 @@ export default function BubbleElement(props) {
       setScrollLeft(e.target.scrollLeft);
     }
   };
-
   useLayoutEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
@@ -75,6 +107,7 @@ export default function BubbleElement(props) {
       (scrollable.current.scrollWidth - scrollable.current.clientWidth) / 2,
       (scrollable.current.scrollHeight - scrollable.current.clientHeight) / 2
     );
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -255,6 +288,10 @@ export default function BubbleElement(props) {
           className={styles.scrollable}
           ref={scrollable}
           onScroll={handleScroll}
+          onMouseDown={handleMouseDown}
+          onMouseLeave={handleMouseLeave}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
         >
           <div
             className={styles.horizontalSpacer}
