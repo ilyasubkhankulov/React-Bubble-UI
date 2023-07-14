@@ -93,6 +93,9 @@ export default function BubbleElement(props) {
     const topwalk = (y - startY) * options.dragspeed;
     scrollable.current.scrollLeft = scrollLeft - walk;
     scrollable.current.scrollTop = scrollTop - topwalk;
+    console.log({ dragspeed: options.dragspeed });
+    console.log({ x, y });
+    console.log({ walk, topwalk });
   };
 
   const handleScroll = (e) => {
