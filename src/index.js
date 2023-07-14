@@ -24,7 +24,6 @@ export default function BubbleElement(props) {
   Object.assign(options, defaultOptions);
   Object.assign(options, props.options);
   options.numCols = Math.min(options.numCols, props.children.length);
-  // console.log(options);
 
   const minProportion = options.minSize / options.size;
 
@@ -68,11 +67,6 @@ export default function BubbleElement(props) {
       setScrollLeft(e.target.scrollLeft);
     }
   };
-
-  // const handleResize = (e) => {
-  //   console.log('resize', e)
-  //   setElementHeight(container.current.clientHeight)
-  // }
 
   useLayoutEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -152,10 +146,6 @@ export default function BubbleElement(props) {
             Math.pow(Math.abs(dx) - options.xRadius + options.cornerRadius, 2)
         );
         distanceFromEdge = distToInnerCorner - options.cornerRadius;
-        // distanceFromEdge = Math.min(
-        //   distToInnerCorner - options.cornerRadius,
-        //   options.fringeWidth
-        // );
       } else {
         distanceFromEdge = Math.max(
           Math.abs(dx) - options.xRadius,
@@ -261,8 +251,6 @@ export default function BubbleElement(props) {
       }}
     >
       <div className={styles.container}>
-        {/* <p>{`scrollTop: ${scrollTop}`}</p>
-        <p>{`scrollLeft: ${scrollLeft}`}</p> */}
         <div
           className={styles.scrollable}
           ref={scrollable}
@@ -360,26 +348,6 @@ export default function BubbleElement(props) {
                     : options.cornerRadius + options.fringeWidth,
               }}
             ></div>
-            {/* <div
-              style={{
-                position: "absolute",
-                height: `100%`,
-                width: 1,
-                backgroundColor: "#000",
-                left: `50%`,
-                top: 0,
-              }}
-            ></div>
-            <div
-              style={{
-                position: "absolute",
-                width: `100%`,
-                height: 1,
-                backgroundColor: "#000",
-                top: `50%`,
-                left: 0,
-              }}
-            ></div> */}
           </div>
         ) : null}
       </div>
